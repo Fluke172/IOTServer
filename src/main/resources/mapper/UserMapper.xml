@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssf.mapper.UserMapper">
+
+        <insert id="insertUser" parameterType="com.cssf.pojo.book.BUser">
+            insert ignore into iotdb.buser(id,name,state) values (#{id},#{name},#{state})
+        </insert>
+
+        <update id="changeUserState" >
+            update iotdb.buser set state=#{state} where id = #{id}
+        </update>
+        <select id="queryAllUser" resultType="com.cssf.pojo.book.BUser">
+            select * from iotdb.buser where state = "1" order by id desc
+        </select>
+        <select id="queryUserById" resultType="com.cssf.pojo.book.BUser">
+            select * from iotdb.buser where id=#{id}
+        </select>
+        <select id="queryByUserName" resultType="com.cssf.pojo.book.BUser">
+            select * from iotdb.buser where name = #{username} and state = "1"
+        </select>
+        <select id="queryAll" resultType="com.cssf.pojo.book.BUser">
+            select * from iotdb.buser  order by id desc
+        </select>
+
+
+
+
+</mapper>

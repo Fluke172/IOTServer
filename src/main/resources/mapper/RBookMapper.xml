@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssf.mapper.RBookMapper">
+        <resultMap id="CountMap" type="com.cssf.pojo.book.Count">
+            <result column="count" property="count"/>
+            <result column="data" property="data"/>
+        </resultMap>
+
+        <insert id="insertRBook" parameterType="com.cssf.pojo.book.Rbook">
+            insert ignore into iotdb.rbook(id,bname,userid,btime,endtime) values (#{id},#{bname},#{userid},#{btime},#{endtime})
+        </insert>
+
+        <update id="rePayBook" >
+            update iotdb.rbook set endtime=#{endtime} where userid = #{userid} and bname = #{bname}
+        </update>
+        <select id="queryAllRbook" resultType="com.cssf.pojo.book.Rbook">
+            select * from iotdb.rbook  order by btime desc
+        </select>
+        <select id="queryAllPreRbook" resultType="com.cssf.pojo.book.Rbook">
+            select * from iotdb.rbook where endtime = 0  order by btime desc
+        </select>
+        <select id="querybyUserName" resultType="com.cssf.pojo.book.Rbook">
+            select * from iotdb.rbook where userid = (select id from iotdb.buser where name = #{username}) order by btime desc
+        </select>
+        <select id="querybyBookId" resultType="com.cssf.pojo.book.Rbook">
+            select * from iotdb.rbook where bname = (select bname from iotdb.book where id = #{bookid}) order by btime desc
+        </select>
+        <select id="querybyBtime" resultType="com.cssf.pojo.book.Rbook">
+            select * from iotdb.rbook where btime > #{btime} order by btime desc
+        </select>
+        <select id="queryMaxByUser" resultMap="CountMap">
+            select userid as data,count(userid) as count from iotdb.rbook group by data order by count desc
+        </select>
+        <select id="queryMaxByBook" resultMap="CountMap">
+            select bname as data,count(bname) as count from iotdb.rbook group by data order by count desc
+        </select>
+
+
+
+</mapper>

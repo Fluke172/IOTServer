@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssf.mapper.BicycleMapper">
+
+        <insert id="insertBicycle" parameterType="com.cssf.pojo.Bicycle">
+            insert ignore into iotdb.bicycle(id,gps,bid,isopen) values (#{id},#{gps},#{bid},#{isopen})
+        </insert>
+
+        <update id="updateBattery" >
+            update iotdb.bicycle set bid=#{bid} where id = #{id}
+        </update>
+        <update id="changeOpen" >
+            update iotdb.bicycle set isopen=#{isopen} where id = #{id}
+        </update>
+        <select id="queryAllBicycle" resultType="com.cssf.pojo.Bicycle">
+            select * from iotdb.bicycle  order by id desc
+        </select>
+        <select id="queryBicycleById" resultType="com.cssf.pojo.Bicycle">
+            select * from iotdb.bicycle where id=#{id}  order by id desc
+        </select>
+
+
+
+
+
+</mapper>

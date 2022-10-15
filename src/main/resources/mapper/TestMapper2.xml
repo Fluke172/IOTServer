@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssf.mapper.TestMapper2">
+    <select id="queryAll" resultType="com.cssf.pojo.TestBean2">
+        select * from iotdb.test2 order by id desc
+    </select>
+    <select id="queryRtimeData" resultType="com.cssf.pojo.TestBean2">
+        select * from iotdb.test2 where id = (select MAX(id) from iotdb.test2)
+    </select>
+    <select id="queryRtimeData1" resultType="com.cssf.pojo.TestBean2">
+        select * from iotdb.test2 where name = "lsjjj" order by id desc limit 1
+    </select>
+    <select id="queryRtimeData2" resultType="com.cssf.pojo.TestBean2">
+        select * from iotdb.test2 where name = "HAHAHA" order by id desc limit 1
+    </select>
+    <insert id="insertData" parameterType="com.cssf.pojo.TestBean2">
+        insert into iotdb.test2(name,data,revtime) values (#{name},#{data},#{revtime})
+    </insert>
+    <select id="queryByTime" resultType="com.cssf.pojo.TestBean2" parameterType="com.cssf.pojo.QueryTime" >
+        select * from iotdb.test2 where revtime between #{beginTime} and #{endTime}
+    </select>
+    <delete id="deleteTestBean">
+        delete from iotdb.test2 where id = #{id}
+    </delete>
+    <update id="updateTestBean" parameterType="com.cssf.pojo.TestBean2">
+        update iotdb.test2 set name = #{name},data =#{data},revtime=#{revtime}
+    </update>
+</mapper>
